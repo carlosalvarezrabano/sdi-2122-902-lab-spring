@@ -6,15 +6,15 @@ import com.db4o.ObjectContainer;
 public class ProductsService {
     public List<Product> getProducts() {
         List<Product> products = new LinkedList<Product>();
-        ObjectContainer db = null;
-        try {
-            db = Db4oEmbedded.openFile("bdProducts");
-            List<Product> response = db.queryByExample(Product.class);
+            //db = Db4oEmbedded.openFile("bdProducts");
+            //List<Product> response = db.queryByExample(Product.class);
             // NO RETORNAR LA MISMA LISTA DE LA RESPUESTA
-            products.addAll(response);
-        } finally {
-            db.close();
-        }
+            //products.addAll(response);
+            products.add(new Product("Manzana","https://localhost:8080/sdi_2122_902_lab_jee/images/iconfinder_apple.png", 3));
+            products.add(new Product("Naranja","https://localhost:8080/sdi_2122_902_lab_jee/images/iconfinder_orange.png", 2.5f));
+            products.add(new Product("Fresa","https://localhost:8080/sdi_2122_902_lab_jee/images/iconfinder_strawberry.png", 2));
+            products.add(new Product("Pan","https://localhost:8080/sdi_2122_902_lab_jee/images/iconfinder_bread.png", 0.75f));
+
         return products;
     }
     public void setNewProduct(Product newProduct) {
