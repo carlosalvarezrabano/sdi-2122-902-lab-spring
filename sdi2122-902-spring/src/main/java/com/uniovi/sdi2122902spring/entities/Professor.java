@@ -1,11 +1,17 @@
 package com.uniovi.sdi2122902spring.entities;
 
-public class Professor {
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
+public class Professor {
+    @Id
     private String dni;
     private String name;
     private String surname;
     private String department;
+
+    public Professor() { }
 
     public Professor(String dni, String name, String surname, String department) {
         this.dni = dni;
