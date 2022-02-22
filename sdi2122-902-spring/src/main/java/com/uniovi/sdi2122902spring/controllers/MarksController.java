@@ -1,6 +1,7 @@
 package com.uniovi.sdi2122902spring.controllers;
 
 import com.uniovi.sdi2122902spring.entities.Mark;
+import com.uniovi.sdi2122902spring.entities.User;
 import com.uniovi.sdi2122902spring.services.MarksService;
 import com.uniovi.sdi2122902spring.services.UsersService;
 import com.uniovi.sdi2122902spring.validators.MarksValidator;
@@ -12,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,13 +40,17 @@ public class MarksController {
     }
 
     @RequestMapping("/mark/list")
-    public String getList(Model model) {
-        model.addAttribute("markList", marksService.getMarks());
+    public String getList(Model model, Principal principal) {
+        String dni = principal.getName(); // DNI es el name de la autenticación
+        User user = usersService.getUserByDni(dni);
+        model.addAttribute("markList", marksService.getMarksForUser(user));
         return "mark/list";
     }
     @RequestMapping("/mark/list/update")
-    public String updateList(Model model){
-        model.addAttribute("markList", marksService.getMarks() );
+    public String updateList(Model model, Principal principal){
+        String dni = principal.getName(); // DNI es el name de la autenticación
+        User user = usersService.getUserByDni(dni);
+        model.addAttribute("markList", marksService.getMarksForUser(user) );
         return "mark/list :: tableMarks";
     }
     @RequestMapping(value = "/mark/add", method = RequestMethod.POST)
