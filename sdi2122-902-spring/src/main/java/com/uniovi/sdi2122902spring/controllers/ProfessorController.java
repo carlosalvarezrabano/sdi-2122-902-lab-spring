@@ -4,50 +4,62 @@ import com.uniovi.sdi2122902spring.entities.Mark;
 import com.uniovi.sdi2122902spring.entities.Professor;
 import com.uniovi.sdi2122902spring.services.MarksService;
 import com.uniovi.sdi2122902spring.services.ProfessorService;
+import com.uniovi.sdi2122902spring.validators.ProfessorValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 public class ProfessorController {
 
     @Autowired
     private ProfessorService professorsService;
+    @Autowired
+    private ProfessorValidator validator;
 
     @RequestMapping(value = "/professor/add")
-    public String getMark() {
-        return "Ok";
+    public String getProfessor(Model model) {
+        model.addAttribute("professor", new Professor());
+        return "professor/add";
     }
 
     @RequestMapping("/professor/list")
-    public String getList() {
-        return professorsService.getProfessors().toString();
+    public String getList(Model model) {
+        model.addAttribute("professorsList", professorsService.getProfessors());
+        return "professor/list";
     }
     @RequestMapping(value = "/professor/add", method = RequestMethod.POST)
-    public String setMark(Professor professor) {
+    public String setMark(@Validated Professor professor, BindingResult result) {
+        validator.validate(professor, result);
+        if(result.hasErrors()) {
+            return "professor/add";
+        }
         professorsService.addProfessor(professor);
-        return "Ok";
+        return "redirect:/professor/list";
     }
-    @RequestMapping("/professor/details/{dni}")
-    public String getDetail(@PathVariable String dni) {
-        return professorsService.getProfessor(dni).toString();
-    }
-
-    @RequestMapping("/professor/delete/{dni}")
-    public String deleteMark(@PathVariable String dni) {
-        professorsService.deleteProfessor(dni);
-        return "Ok";
+    @RequestMapping("/professor/details/{id}")
+    public String getDetail(@PathVariable Long id) {
+        return professorsService.getProfessor(id).toString();
     }
 
-    @RequestMapping(value = "/mark/edit/{dni}")
-    public String getEdit(@PathVariable String dni) {
-        return "Editando..." + professorsService.getProfessor(dni).toString();
+    @RequestMapping("/professor/delete/{id}")
+    public String deleteMark(@PathVariable Long id) {
+        professorsService.deleteProfessor(id);
+        return "redirect:/professor/list";
     }
 
-    @RequestMapping(value="/mark/edit/{dni}", method=RequestMethod.POST)
-    public String setEdit(@PathVariable String dni){
-        Professor professor = professorsService.getProfessor(dni);
-        professor.setDni(dni);
+    @RequestMapping(value = "/professor/edit/{id}")
+    public String getEdit(@PathVariable Long id) {
+        return "Editando..." + professorsService.getProfessor(id).toString();
+    }
+
+    @RequestMapping(value="/professor/edit/{id}", method=RequestMethod.POST)
+    public String setEdit(@PathVariable Long id){
+        Professor professor = professorsService.getProfessor(id);
+        professor.setDni(professor.getDni());
         professorsService.addProfessor(professor);
         return "Ok";
     }

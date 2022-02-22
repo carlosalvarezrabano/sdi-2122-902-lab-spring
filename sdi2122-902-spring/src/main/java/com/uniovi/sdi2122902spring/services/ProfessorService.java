@@ -29,15 +29,19 @@ public class ProfessorService {
         return professors;
     }
 
-    public Professor getProfessor(String dni) {
-        return professorRepository.findByDni(dni).get();
+    public Professor getProfessor(Long id) {
+        return professorRepository.findById(id).get();
     }
 
     public void addProfessor(Professor professor) {
         professorRepository.save(professor);
     }
 
-    public void deleteProfessor(String dni) {
-        professorRepository.deleteByDni(dni);
+    public void deleteProfessor(Long id) {
+        professorRepository.deleteById(id);
+    }
+
+    public Professor getProfessorByDni(String dni) {
+        return professorRepository.getProfessorByDni(dni);
     }
 }

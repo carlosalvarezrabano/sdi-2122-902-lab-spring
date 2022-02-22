@@ -3,11 +3,13 @@ package com.uniovi.sdi2122902spring.services;
 import com.uniovi.sdi2122902spring.entities.Mark;
 import com.uniovi.sdi2122902spring.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.HashSet;
 import java.util.Set;
 
+@Service
 public class InsertSampleDataService {
 
     @Autowired

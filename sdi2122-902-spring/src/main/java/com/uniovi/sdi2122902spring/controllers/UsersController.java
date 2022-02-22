@@ -1,5 +1,6 @@
 package com.uniovi.sdi2122902spring.controllers;
 
+import com.uniovi.sdi2122902spring.entities.Mark;
 import com.uniovi.sdi2122902spring.entities.User;
 import com.uniovi.sdi2122902spring.services.SecurityService;
 import com.uniovi.sdi2122902spring.services.UsersService;
@@ -33,6 +34,11 @@ public class UsersController {
         model.addAttribute("usersList", usersService.getUsers());
         return "user/list";
     }
+    @RequestMapping("/user/list/update")
+    public String updateList(Model model) {
+        model.addAttribute("usersList", usersService.getUsers());
+        return "user/list::tableUsers";
+    }
     @RequestMapping(value = "/user/add")
     public String getUser(Model model) {
         model.addAttribute("usersList", usersService.getUsers());
@@ -61,7 +67,12 @@ public class UsersController {
     }
     @RequestMapping(value = "/user/edit/{id}", method = RequestMethod.POST)
     public String setEdit(Model model, @PathVariable Long id, @ModelAttribute User user) {
-        usersService.addUser(user);
+        User originalUser = usersService.getUser(id);
+        // modificar solo dni, nombre y apellidos
+        originalUser.setDni(user.getDni());
+        originalUser.setName(user.getName());
+        originalUser.setLastName(user.getLastName());
+        usersService.addUser(originalUser);
         return "redirect:/user/details/" + id;
     }
     @RequestMapping(value = "/signup", method = RequestMethod.GET)

@@ -5,8 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
-public interface ProfessorRepository extends CrudRepository<Professor, String> {
+public interface ProfessorRepository extends CrudRepository<Professor, Long> {
 
-    Optional<Professor> findByDni(String dni);
-    void deleteByDni(String dni);
+    Professor getProfessorByDni(String dni);
 }
