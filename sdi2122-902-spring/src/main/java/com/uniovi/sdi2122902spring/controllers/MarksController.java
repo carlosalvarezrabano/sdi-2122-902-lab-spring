@@ -49,7 +49,7 @@ public class MarksController {
         String dni = principal.getName(); // DNI es el name de la autenticación
         User user = usersService.getUserByDni(dni);
         Page<Mark> marks = new PageImpl<Mark>(new LinkedList<Mark>());
-        if(searchText != null || !searchText.isEmpty()) {
+        if(searchText != null && !searchText.isEmpty()) {
             marks = marksService.searchMarksByDescriptionAndNameForUser(pageable, searchText, user);
         }
         else{
