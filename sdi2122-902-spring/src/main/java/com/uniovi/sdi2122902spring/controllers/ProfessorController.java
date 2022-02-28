@@ -41,8 +41,9 @@ public class ProfessorController {
         return "redirect:/professor/list";
     }
     @RequestMapping("/professor/details/{id}")
-    public String getDetail(@PathVariable Long id) {
-        return professorsService.getProfessor(id).toString();
+    public String getDetail(Model model, @PathVariable Long id) {
+        model.addAttribute("professor", professorsService.getProfessor(id));
+        return "professor/details";
     }
 
     @RequestMapping("/professor/delete/{id}")

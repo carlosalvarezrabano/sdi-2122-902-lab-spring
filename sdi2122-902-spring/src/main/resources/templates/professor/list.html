@@ -1,5 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:replace="fragments/head"/>
 <body>
 <!-- Barra de Navegación superior -->
@@ -29,9 +30,9 @@
                 <td scope="row" th:text="${professor.name}">Nombre del profesor</td>
                 <td scope="row" th:text="${professor.surname}">Apellidos del profesor</td>
                 <td scope="row" th:text="${professor.department}">Departamento del profesor</td>
-                <td scope="row"><a th:href="${'/professor/details/' + professor.id}">detalles</a></td>
-                <td scope="row"><a th:href="${'/professor/edit/' + professor.id}">modificar</a></td>
-                <td scope="row" ><a th:href="${'/professor/delete/' + professor.id}">eliminar</a></td>
+                <td scope="row"><a sec:authorize="!hasRole('ROLE_STUDENT')" th:href="${'/professor/details/' + professor.id}">detalles</a></td>
+                <td scope="row"><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="${'/professor/edit/' + professor.id}">modificar</a></td>
+                <td scope="row" ><a sec:authorize="hasRole('ROLE_ADMIN')" th:href="${'/professor/delete/' + professor.id}">eliminar</a></td>
             </tr>
             </tbody>
         </table>
