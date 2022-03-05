@@ -2,7 +2,7 @@ package com.uniovi.sdi2122902spring.pageobjects;
 
 import java.util.List;
 
-import com.uniovi.notaneitor.util.SeleniumUtils;
+import com.uniovi.sdi2122902spring.util.SeleniumUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
