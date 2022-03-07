@@ -219,71 +219,37 @@ class Sdi2122902SpringApplicationTests {
     @Test
     @Order(18)
     void PR12() {
-        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        PO_LoginView.fillLoginForm(driver, "99999990A", "123456");
-        String checkText = "Notas del usuario";
-        List<WebElement> result = PO_View.checkElementBy(driver,"text", checkText);
-        List<WebElement> markList = SeleniumUtils.waitLoadElementsBy(driver, "free", "//tbody/tr",
-                PO_View.getTimeout());
+        PO_PrivateView.login(driver, "99999990A", "123456");
+        List<WebElement> markList = PO_PrivateView.accessMarkList(driver);
         Assertions.assertEquals(4, markList.size());
-        String loginText = PO_HomeView.getP().getString("signup.message", PO_Properties.getSPANISH());
-        PO_PrivateView.clickOption(driver,"logout","text",loginText);
+        PO_PrivateView.logout(driver);
     }
 
     @Test
     @Order(19)
     void PR13() {
-        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        PO_LoginView.fillLoginForm(driver, "99999990A", "123456");
-        String checkText = "Notas del usuario";
-        List<WebElement> result = PO_View.checkElementBy(driver,"text", checkText);
-        By enlace = By.xpath("//td[contains(text(), 'Nota A2')]/following-sibling::*[2]");
-        driver.findElement(enlace).click();
-        checkText = "Detalles de la nota";
-        result = PO_View.checkElementBy(driver,"text", checkText);
+        PO_PrivateView.login(driver, "99999990A", "123456");
+        String checkText = "Nota A2";
+        List<WebElement> result = PO_PrivateView.viewMarkDetails(driver, checkText);
         Assertions.assertEquals(checkText, result.get(0).getText());
-        String loginText = PO_HomeView.getP().getString("signup.message", PO_Properties.getSPANISH());
-        PO_PrivateView.clickOption(driver,"logout","text",loginText);
+        PO_PrivateView.logout(driver);
     }
 
     @Test
     @Order(20)
     void PR14() {
-        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        PO_LoginView.fillLoginForm(driver, "99999993D", "123456");
-        PO_View.checkElementBy(driver,"text", "99999993D");
-        List<WebElement> elements = PO_View.checkElementBy(driver,"free","//li[contains(@id, 'marks-menu')]/a");
-        elements.get(0).click();
-        elements = PO_View.checkElementBy(driver,"free", "//a[contains(@href, 'mark/add')]");
-        elements.get(0).click();
+        PO_PrivateView.login(driver, "99999993D", "123456");
         String checkText = "Nota Nueva 1";
-        PO_PrivateView.fillFormAddMark(driver, 3, checkText, "8");
-        elements = PO_View.checkElementBy(driver,"free","//a[contains(@class, 'page-link')]");
-        elements.get(3).click();
-        elements = PO_View.checkElementBy(driver, "text", checkText);
+        List<WebElement> elements = PO_PrivateView.addMark(driver, checkText, "8");
         Assertions.assertEquals(checkText, elements.get(0).getText());
-        String loginText = PO_HomeView.getP().getString("signup.message", PO_Properties.getSPANISH());
-        PO_PrivateView.clickOption(driver,"logout","text",loginText);
+        PO_PrivateView.logout(driver);
     }
 
     @Test
     @Order(21)
     void PR15() {
-        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
-        PO_LoginView.fillLoginForm(driver, "99999993D", "123456");
-        PO_View.checkElementBy(driver,"text", "99999993D");
-        List<WebElement> elements = PO_View.checkElementBy(driver,"free","//li[contains(@id, 'marks-menu')]/a");
-        elements.get(0).click();
-        elements = PO_View.checkElementBy(driver,"free", "//a[contains(@href, 'mark/list')]");
-        elements.get(0).click();
-        elements = PO_View.checkElementBy(driver,"free","//a[contains(@class, 'page-link')]");
-        elements.get(3).click();
-        elements = PO_View.checkElementBy(driver,"free","//td[contains(text(), 'Nota Nueva 1')]/following-sibling::*/a[contains(@href, 'mark/delete')]");
-        elements.get(0).click();
-        elements = PO_View.checkElementBy(driver,"free","//a[contains(@class, 'page-link')]");
-        elements.get(3).click();
-        SeleniumUtils.waitTextIsNotPresentOnPage(driver, "Nota Nueva 1", PO_View.getTimeout());
-        String loginText = PO_HomeView.getP().getString("signup.message", PO_Properties.getSPANISH());
-        PO_PrivateView.clickOption(driver,"logout","text",loginText);
+        PO_PrivateView.login(driver, "99999993D", "123456");
+        PO_PrivateView.deleteMark(driver, "Nota Nueva 1");
+        PO_PrivateView.logout(driver);
     }
 }
